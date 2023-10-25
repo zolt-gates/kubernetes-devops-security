@@ -17,6 +17,15 @@ pipeline {
             steps {
               sh "mvn test"
             }
-        }  
+        } 
+      stage('Docker Build and Push') {
+            steps {
+                withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+                    sh "printenv"
+                    sh 'docker build -t souljay/numeric-app:""$GIT_COMMIT"" .'
+                    sh 'docker push souljay/numeric-app:""$GIT_COMMIT""'
+                }
+            }
+        }   
     }
 }
