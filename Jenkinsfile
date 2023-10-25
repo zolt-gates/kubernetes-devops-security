@@ -1,6 +1,6 @@
 pipeline {
   agent any
-
+  #stages are below
   stages {
       stage('Build Artifact') {
             steps {
