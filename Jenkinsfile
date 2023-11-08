@@ -26,7 +26,6 @@ pipeline {
             }  
           }
         }
-      }
           
       stage('Docker Build and Push') {
             steps {
@@ -38,6 +37,7 @@ pipeline {
             }
          }
       }
+
       stage('Kubernetes Deployment - DEV') {
             steps {
                 withKubeConfig([credentialsId: "kubeconfig"]) {
