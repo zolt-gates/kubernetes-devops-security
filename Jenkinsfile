@@ -19,11 +19,11 @@ pipeline {
             }
         }
       stage('SonarQube Analysis') {
-        def mvn = tool 'Maven';
-        withSonarQubeEnv() {
-          sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application'"
-        }  
-      } 
+              steps {
+                sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://http://devsecops-k8s-2023.eastus.cloudapp.azure.com:9000 -Dsonar.projectName='numeric-application"
+              }
+          
+        } 
 
       stage('Docker Build and Push') {
             steps {
