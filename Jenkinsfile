@@ -19,12 +19,12 @@ pipeline {
             }
         }
       stage('SonarQube Analysis') {
-            steps{
-              def mvn = tool 'Maven';
-              withSonarQubeEnv() {
-              sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application'"
-            }  
+        def mvn = tool 'Maven';
+        withSonarQubeEnv() {
+          sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application'"
         }  
+      } 
+
       stage('Docker Build and Push') {
             steps {
                 withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
@@ -41,7 +41,7 @@ pipeline {
                 withKubeConfig([credentialsId: "kubeconfig"]) {
                     sh "sed -i 's#replace#souljay/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
                     sh "kubectl apply -f k8s_deployment_service.yaml"
-                }
+                
             }
         } 
     }
