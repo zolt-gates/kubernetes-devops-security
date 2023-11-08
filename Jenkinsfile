@@ -19,11 +19,15 @@ pipeline {
             }
         }
       stage('SonarQube Analysis') {
-          def mvn = tool 'Maven';
-          withSonarQubeEnv() {
-            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application'"
+            steps{
+              def mvn = tool 'Maven';
+              withSonarQubeEnv() {
+              sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application'"
+            }  
           }
         }
+      }
+          
       stage('Docker Build and Push') {
             steps {
                 withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
@@ -32,7 +36,8 @@ pipeline {
                     sh 'docker push souljay/numeric-app:""$GIT_COMMIT""'
                 }
             }
-        }
+         }
+      }
       stage('Kubernetes Deployment - DEV') {
             steps {
                 withKubeConfig([credentialsId: "kubeconfig"]) {
