@@ -20,7 +20,7 @@ pipeline {
         }
       stage('SonarQube Analysis') {
               steps {
-                sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://devsecops-k8s-2023.eastus.cloudapp.azure.com:9000 -Dsonar.projectName='numeric-application'"
+                sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://devsecops-k8s-2023.eastus.cloudapp.azure.com:9000 -Dsonar.projectName='numeric-application' -Dsonar.login=sqp_0fe978cb7f3e0f3931ea488b770a72cc1fba6596"
               }
         } 
       stage('Docker Build and Push') {
